@@ -1,0 +1,88 @@
+const bcrypt = require("bcryptjs");
+
+const data = {
+  users: [
+    {
+      name: "hassan",
+      email: "admin@outbox.com",
+      password: bcrypt.hashSync("1234", 8),
+      isAdmin: true,
+    },
+    {
+      name: "John",
+      email: "user@outbox.com",
+      password: bcrypt.hashSync("1234", 8),
+      isAdmin: false,
+    },
+  ],
+  order: [
+    {
+      pickup: "Jinja",
+      category: "Shirts",
+      image: "/images/product-2.jpeg",
+      price: 120,
+      countInStock: 10,
+      brand: "Nike",
+      rating: 4.5,
+      numReviews: 10,
+      description: "high quality product",
+    },
+    {
+      name: "Addias Fit Shirt",
+      category: "Shirts",
+      image: "/images/product-1.jpeg",
+      price: 100,
+      countInStock: 20,
+      brand: "Addidas",
+      rating: 4.0,
+      numReviews: 10,
+      description: "high quality product",
+    },
+    {
+      name: "Lacoste free Shirt",
+      category: "Shirts",
+      image: "/images/product-2.jpeg",
+      price: 120,
+      countInStock: 0,
+      brand: "Lacoste",
+      rating: 4.8,
+      numReviews: 17,
+      description: "high quality product",
+    },
+    {
+      name: "Nike Slim Pant",
+      category: "Pants",
+      image: "/images/product-1.jpeg",
+      price: 78,
+      countInStock: 15,
+      brand: "Nike",
+      rating: 4.5,
+      numReviews: 14,
+      description: "high quality product",
+    },
+    {
+      name: "Puma Slim Pant",
+      category: "Pants",
+      image: "/images/product-2.jpeg",
+      price: 65,
+      countInStock: 5,
+      brand: "Puma",
+      rating: 4.5,
+      numReviews: 10,
+      description: "high quality product",
+    },
+    {
+      name: "Addidas Slim Pant",
+      category: "Shirts",
+      image: "/images/product-1.jpeg",
+      price: 139,
+      countInStock: 12,
+      brand: "Addidas",
+      rating: 4.5,
+      numReviews: 13,
+      description: "high quality product",
+    },
+  ],
+};
+
+module.exports = data;

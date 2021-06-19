@@ -1,21 +1,42 @@
-//imports
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-//schema -- structure and how the data is expected to look 
-const orderSchema = mongoose.Schema({
-    title: {
-        type: String,
-        required: true
+const orderSchema = new mongoose.Schema(
+  {
+    orderItems: [
+      {
+        name: { type: String, required: true },
+        qty: { type: Number, required: true },
+        image: { type: String, required: true },
+        price: { type: Number, required: true },
+        //for link
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+      },
+    ],
+    shippingAddress: {
+      fullName: { type: String, required: true },
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true },
     },
-    description: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    }
-});
+    paymentMethod: { type: String, requierd: true },
+    itemsPrice: { type: Number, required: true },
+    shippingPrice: { type: Number, required: true },
+    taxPrice: { type: Number, required: true },
+    totalPrice: { type: Number, required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    isPaid: { type: Boolean, default: false },
+    paidAt: { type: Date },
+    isDelivered: { type: Boolean, default: false },
+    deliveredAt: { type: Date },
+  },
+  { timestamps: true }
+);
 
-//exporting schema
-module.exports = mongoose.model('Orders',orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+
+module.exports = Order;
