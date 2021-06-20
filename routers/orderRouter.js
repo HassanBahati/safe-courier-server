@@ -1,46 +1,46 @@
 const express = require("express");
-const expressAsyncHandler = require("express-async-handler");
+
 const Order = require("../models/orderModel.js");
-const isAuth = require("../auth.js");
 
 const orderRouter = express.Router();
 
-orderRouter.post(
-  "/",
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    if (req.body.orderItems.length === 0) {
-      res.status(400).send({ message: "Cart is empty" });
-    } else {
-      const order = new Order({
-        orderItems: req.body.orderItems,
-        shippingAddress: req.body.shippingAddress,
-        paymentMethod: req.body.paymentMethod,
-        itemsPrice: req.body.itemsPrice,
-        shippingPrice: req.body.shippingPrice,
-        taxPrice: req.body.taxPrice,
-        totalPrice: req.body.totalPrice,
-        user: req.user._id,
-      });
-      const createdOrder = await order.save();
-      res
-        .status(201)
-        .send({ message: "New Order Created", order: createdOrder });
-    }
-  })
-);
+//Get api/orders
+//gets all order
+//public
+orderRouter.get("/", (req, res) => {
+  Order.find()
+    .sort({ date: -1 })
+    .then((orders) => res.json(orders));
+});
 
-orderRouter.get(
-  "/:id",
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    const order = await order.findById(req.params.id);
-    if (order) {
-      res.send(order);
-    } else {
-      res.status(404).send({ message: "Order not Found" });
-    }
-  })
-);
+//Get api/orders
+//create order
+//public
+//post submits an order
+orderRouter.post('/', async (req, res) => {
+  const order = new Order({
+    name: req.body.name,
+    pickUp: req.body.pickUp,
+    delivery: req.body.delivery,
+    weight: req.body.weight,
+  });
+  try {
+    const savedOrder = await order.save();
+    res.json(savedOrder);
+  } catch (err) {
+    console.log(err)
+    res.json({ message: err });
+  }
+});
+
+//delete api/orders
+//deletes order
+//public
+orderRouter.delete("/:id", (req, res) => {
+ Order.findById(req.params.id)
+ .then(order => order.remove().then(() => res.json({msg:'deleted successfully'})))
+ .catch(err => res.status(404).json({msg: "failed to delete order"}))
+}); 
+
 
 module.exports = orderRouter;

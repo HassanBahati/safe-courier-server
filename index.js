@@ -5,7 +5,8 @@ const dotenv = require("dotenv");
 const bodyParser = require('body-parser');
 const userRouter = require("./routers/userRouter");
 const port = process.env.PORT || 5000;
-const cors = require('cors')
+const cors = require('cors');
+const orderRouter = require("./routers/orderRouter");
 
 dotenv.config();
 
@@ -50,18 +51,19 @@ app.get("/", (req, res) => {
   });
 
 
-//incase a route doesnt exist
-app.get('*', (req, res) => {
-    res.send('the route specified doesnt exist');
-  });
+// //incase a route doesnt exist
+// app.get('*', (req, res) => {
+//     res.send('the route specified doesnt exist');
+//   });
   
   app.use("/api/users", userRouter);
 //   app.use("/api/products", productRouter);
-//   app.use('/api/orders', orderRouter)
+  app.use('/api/orders', orderRouter)
   
   app.use((err, req, res, next) => {
     res.status(500).send({ message: err });
   });
+
   
   // setting port
   app.listen(port, () => {
